@@ -19,6 +19,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createCampground = async (req, res, next) => {
   //отримуємо геодані за допомогою методу прямого геокодування forwardGeocode
+  //  Mapbox повертає нам GeoJSON.
   const geoData = await geocoder
     .forwardGeocode({
       query: req.body.campground.location,
@@ -27,6 +28,7 @@ module.exports.createCampground = async (req, res, next) => {
     .send();
 
   const campground = new Campground(req.body.campground);
+  campground.geometry = geoData.body.features[0].geometry;
   // добавлений масив зображень завдяки multer
   campground.images = req.files.map((f) => ({
     url: f.path,

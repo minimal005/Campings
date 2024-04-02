@@ -17,6 +17,18 @@ ImageSchema.virtual("thumbnail").get(function () {
 const CampgroundSchema = new Schema({
   title: String,
   images: [ImageSchema],
+  //шаблон GeoJSON — це формат для зберігання географічних точок, інфо https://mongoosejs.com/docs/geojson.html
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
   price: Number,
   description: String,
   location: String,
