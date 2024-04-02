@@ -1,4 +1,11 @@
 const Campground = require("../models/campground");
+
+//геокодування mapbox
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+// витягуємо збережений token
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+// створюємо новий екземпляр геокодування Mapbox, таким чином ми передамо наш маркер доступу.
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
@@ -11,6 +18,14 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
+  //отримуємо геодані за допомогою методу прямого геокодування forwardGeocode
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.campground.location,
+      limit: 1,
+    })
+    .send();
+
   const campground = new Campground(req.body.campground);
   // добавлений масив зображень завдяки multer
   campground.images = req.files.map((f) => ({
