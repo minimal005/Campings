@@ -23,14 +23,14 @@ const sample = (arr) => {
 const seedDB = async () => {
   try {
     await Campground.deleteMany({});
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 400; i++) {
       const random1000 = Math.floor(Math.random() * 1000);
       const price = Math.floor(Math.random() * 20) + 10;
 
       await Campground.create({
         //прописую id адміна
         author: "6607c5f05d6a280175f66f97",
-        title: `${sample(places)} ${sample(descriptors)} ${sample(places)}`,
+        title: `${sample(places)} ${sample(descriptors)} ${random1000}`,
         location: `${cities[random1000].city}, ${cities[random1000].state},`,
 
         description:
