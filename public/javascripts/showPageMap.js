@@ -8,6 +8,10 @@ const map = new mapboxgl.Map({
   zoom: 10, // масштаб
 });
 
+// Додаємо навігацію на карту
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav);
+
 // додавання маркера
 new mapboxgl.Marker()
   .setLngLat(campground.geometry.coordinates)
